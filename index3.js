@@ -15,17 +15,26 @@ const howManyLittleBoats = (board) => {
 const littleBoatAssign = (board) => {
   let point = []
   let secondPoint = []
+  let column = []
   while (point.length !== 2) {
     point.push(random(6))
   }
-  board.push(point)
-  if (point[0] === 5) {
-    secondPoint.push(4, point[1])
-    board.push(secondPoint)
-  } else {
-      secondPoint.push(point[0]+1, point[1])
-      board.push(secondPoint)
-    }
+  if (!column.includes(point[1])) {
+    board.push(point)
+  }
+
+      if (point[0] === 5) {
+        secondPoint.push(4, point[1])
+        board.push(secondPoint)
+        column.push(point[1])
+      } else {
+          secondPoint.push(point[0]+1, point[1])
+          board.push(secondPoint)
+          column.push(point[1])
+        }
+
+
+console.log(column)
   return board
 }
 
@@ -41,14 +50,19 @@ const bigBoatAssign = (board) => {
   let point = []
   let secondPoint = []
   let thirdPoint = []
+  let column = []
   while (point.length !== 2) {
     point.push(random(6))
   }
-  board.push(point)
+  if(!column.includes(point[1])) {
+    board.push(point)
+  }
+
   if (point[0] === 5) {
     secondPoint.push(4, point[1])
 
     thirdPoint.push(3, point[1])
+    column.push(point[1])
     board.push(secondPoint)
     // console.log(thirdPoint)
     board.push(thirdPoint)
@@ -56,10 +70,12 @@ const bigBoatAssign = (board) => {
       secondPoint.push(point[0]+1, point[1])
 
       thirdPoint.push(point[0]+2, point[1])
+      column.push(point[1])
       board.push(secondPoint)
       // console.log(thirdPoint)
       board.push(thirdPoint)
     }
+    console.log(column)
   return board
 }
 
