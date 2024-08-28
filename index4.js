@@ -1,8 +1,5 @@
-
-
 const point1 = new Set()
 const point2 = new Set()
-
 const points = []
 const smallShipBoard = []
 const bigShipBoard = []
@@ -27,7 +24,6 @@ const pushPoints = (arr1, arr2) => {
   for (let i = 0; i < arr1.length && arr2.length; i++) {
     points.push([arr1[i], arr2[i]])
   }
-
   return points
 }
 
@@ -60,16 +56,14 @@ const bigBoatPositions = (arr) => {
 }
 
 const board = []
-
 const boardFiller = (smallArr, bigArr) => {
   if(points.length === 4) {
-    
+
   }
   for(let i = 0; i <smallArr.length; i++) {
 
   }
 }
-
 
 pointFinder1(4, 6)
 pointFinder2(4, 6)
