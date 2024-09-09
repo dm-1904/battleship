@@ -95,5 +95,51 @@ const testBoard1 = [
   ],
 ];
 
+const printBoard = (board, debug) => {
+  const boardObj = {}
+  const boardRows = 'ABCDEF'
+  if (debug === false) {
+    for(let i = 0; i < board.length; i++) {
+      const row = board[i]
+      boardObj[boardRows[i]] = []
+      for (let j = 0; j < row.length; j++) {
+        const boatPosition = row[j]
+        if (boatPosition.hit === true && boatPosition.id === 2) {
+          boardObj[boardRows[i]].push('🟠')
+        }
+        if (boatPosition.hit === true && boatPosition.id === 1) {
+          boardObj[boardRows[i]].push('🔵')
+        }
+        if (boatPosition.hit === true && boatPosition.type === 'empty') {
+          boardObj[boardRows[i]].push('❗️')
+        }
+        if (boatPosition.hit === false) {
+          boardObj[boardRows[i]].push('-')
+        }
+      }
+    }
+  }
+  if (debug === true) {
+    for(let i = 0; i < board.length; i++) {
+      const row = board[i]
+      boardObj[boardRows[i]] = []
+      for (let j = 0; j < row.length; j++) {
+        const boatPosition = row[j]
+        if (boatPosition.id === 2) {
+          boardObj[boardRows[i]].push('🟠')
+        }
+        if (boatPosition.id === 1) {
+          boardObj[boardRows[i]].push('🔵')
+        }
+        if (boatPosition.type === 'empty') {
+          boardObj[boardRows[i]].push('-')
+        }
+      }
+    }
+  }
+  console.table(boardObj)
+}
 
-console.table(testBoard1[0])
+
+printBoard(testBoard1, true)
+// console.table(testBoard1)

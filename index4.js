@@ -1,51 +1,56 @@
 const point1 = new Set()
 const point2 = new Set()
-const points = []
+const startingCoordinates = []
 const smallShipBoard = []
 const bigShipBoard = []
 
-const pointFinder1 = (quantity, max) => {
+// create a function that can create any size board from an input
+// create a helper that finds a random point on that board
+// places small ship
+// places large ship
+
+const firstPointCoordinate = (quantity, max) => {
   while (point1.size !== quantity) {
-    point1.add(Math.floor(Math.random() * max) + 1)
+    point1.add(Math.floor(Math.random() * max))
   }
   // console.log(point1)
   return point1
 }
 
-const pointFinder2 = (quantity, max) => {
+const secondPointCoordinate = (quantity, max) => {
   while (point2.size !== quantity) {
-    point2.add(Math.floor(Math.random() * max) + 1)
+    point2.add(Math.floor(Math.random() * max))
   }
   // console.log(point2)
   return point2
 }
 
-const pushPoints = (arr1, arr2) => {
-  arr1 = Array.from(arr1)
-  arr2 = Array.from(arr2)
-  for (let i = 0; i < arr1.length && arr2.length; i++) {
-    points.push([arr1[i], arr2[i]])
+const convertSetsToArrays = (set1, set2) => {
+  set1 = Array.from(set1)
+  set2 = Array.from(set2)
+  for (let i = 0; i < set1.length && set2.length; i++) {
+    startingCoordinates.push([set1[i], set2[i]])
   }
-  // console.log(points)
-  return points
+  // console.log(startingCoordinates)
+  return startingCoordinates
 }
 
 const smallBoatPositions = (arr) => {
   for (let i = 0; i < arr.length-2; i++) {
     smallShipBoard.push(arr[i])
-    if (arr[i][0] === 6) {
+    if (arr[i][0] === 5) {
       smallShipBoard.push([arr[i][0]-1, arr[i][1]])
     } else {
       smallShipBoard.push([arr[i][0]+1, arr[i][1]])
     }
   }
-  return bigBoatPositions(points)
+  return bigBoatPositions(startingCoordinates)
 }
 
 const bigBoatPositions = (arr) => {
   for (let i = 2; i < arr.length; i++) {
     bigShipBoard.push(arr[i])
-    if (arr[i][0] > 4) {
+    if (arr[i][0] > 3) {
       bigShipBoard.push([arr[i][0]-1, arr[i][1]])
       bigShipBoard.push([arr[i][0]-2, arr[i][1]])
     } else {
@@ -53,16 +58,16 @@ const bigBoatPositions = (arr) => {
       bigShipBoard.push([arr[i][0]+2, arr[i][1]])
     }
   }
-  console.log(smallShipBoard)
-  console.table(smallShipBoard)
+  // console.log(smallShipBoard)
+  // console.table(smallShipBoard)
   // console.log(bigShipBoard)
   // console.table(bigShipBoard)
-  return boardFiller(smallShipBoard, bigShipBoard)
+  return battleShipPlacer(smallShipBoard, bigShipBoard)
 }
 
 const board = [
   [
-    { type: "empty", hit: false, test: true},
+    { type: "empty", hit: false },
     { type: "empty", hit: false },
     { type: "empty", hit: false },
     { type: "empty", hit: false },
@@ -111,23 +116,39 @@ const board = [
   ],
 ]
 
-const boardFiller = (smallArr, bigArr) => {
-  for(let i = 0; i < smallArr.length; i++) {
-    let el = smallArr[i][0]
-    let Ele = smallArr[i][1]
-    let obj = board[el][Ele]
-    // console.log(Ele)
+
+const battleShipPlacer = (smallArr, bigArr) => {
+  // console.log("smallArr: ", smallArr);
+  // console.log("bigArr: ", bigArr);
+  for (let i = 0; i < smallArr.length; i++) {
+    // console.log("smallArr elements: ", smallArr[i][0], smallArr[i][1]);
+    let smallBoatCoordinate1 = smallArr[i][0]
+    let smallBoatCoordinate2 = smallArr[i][1]
+
+    // console.log("board position: ", board[smallBoatCoordinate1][smallBoatCoordinate2]);
+    let smallBoatObj = board[smallBoatCoordinate1][smallBoatCoordinate2]
+    smallBoatObj.type = 'small'
+    smallBoatObj.id = 2
+    // console.log(smallBoatCoordinate2)
     // console.log(smallArr[i][0], smallArr[i][1])
-    console.log(board[el][Ele])
+    // console.log(board[smallBoatCoordinate1][smallBoatCoordinate2])
     // console.log(board[0][0])
-    // console.log(obj)
+    // console.log(smallBoatObj)
   }
-  // console.log(smallArr[0][0], smallArr[0][1])
+  // console.log(bigArr)
+  for (let i = 0; i < bigArr.length; i++) {
+    let bigBoatCoordinate1 = bigArr[i][0]
+    let bigBoatCoordinate2 = bigArr[i][1]
+    let bigBoatObj = board[bigBoatCoordinate1][bigBoatCoordinate2]
+    bigBoatObj.type = 'large'
+    bigBoatObj.id = 1
+  }
+  console.log(board)
+  return board 
 }
-
+// console.table(board)
 // console.log(board[0][0])
-
-pointFinder1(4, 6)
-pointFinder2(4, 6)
-pushPoints(point1, point2)
-smallBoatPositions(points)
+secondPointCoordinate(4, 5)
+firstPointCoordinate(4, 5)
+convertSetsToArrays(point1, point2)
+smallBoatPositions(startingCoordinates)
