@@ -1,13 +1,142 @@
+const readlineSync = require('readline-sync')
 const point1 = new Set()
 const point2 = new Set()
 const startingCoordinates = []
 const smallShipBoard = []
 const bigShipBoard = []
+const board6x6 = [
+  [
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+  ],
+  [
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+  ],
+  [
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+  ],
+  [
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+  ],
+  [
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+  ],
+  [
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+  ],
+]
+
+const board5x5 = [
+  [
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+  ],
+  [
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+  ],
+  [
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+  ],
+  [
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+  ],
+  [
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+  ],
+]
+const board4x4 = [
+  [
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+  ],
+  [
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+  ],
+  [
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+  ],
+  [
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+    { type: "empty", hit: false },
+  ],
+]
 
 // create a function that can create any size board from an input
 // create a helper that finds a random point on that board
 // places small ship
 // places large ship
+
+const greetUser = () => {
+  console.log("Welcome to Battleship!")
+  const wantToPlay = readlineSync.keyInYN('Do you want to play?')
+  return wantToPlay
+}
+
+const selectBoardSize = () => {
+  console.log('What size board would you like to play on?')
+  const answers = ['4X4', '5X5', '6X6']
+  const userAnswer = readlineSync.keyInSelect(answers, 'Choose your board size: ')
+}
+
+// greetUser()
 
 const firstPointCoordinate = (quantity, max) => {
   while (point1.size !== quantity) {
@@ -65,56 +194,6 @@ const bigBoatPositions = (arr) => {
   return battleShipPlacer(smallShipBoard, bigShipBoard)
 }
 
-const board = [
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-]
 
 
 const battleShipPlacer = (smallArr, bigArr) => {
@@ -143,8 +222,55 @@ const battleShipPlacer = (smallArr, bigArr) => {
     bigBoatObj.type = 'large'
     bigBoatObj.id = 1
   }
-  console.log(board)
-  return board 
+  // console.table(printBoard(board, true))
+  return printBoard(board, true)
+}
+
+
+const printBoard = (board, debug) => {
+  const boardObj = {}
+  const boardRows = 'ABCDEF'
+  if (debug === false) {
+    for(let i = 0; i < board.length; i++) {
+      const row = board[i]
+      boardObj[boardRows[i]] = []
+      for (let j = 0; j < row.length; j++) {
+        const boatPosition = row[j]
+        if (boatPosition.hit === true && boatPosition.id === 2) {
+          boardObj[boardRows[i]].push('🟠')
+        }
+        if (boatPosition.hit === true && boatPosition.id === 1) {
+          boardObj[boardRows[i]].push('🔵')
+        }
+        if (boatPosition.hit === true && boatPosition.type === 'empty') {
+          boardObj[boardRows[i]].push('❗️')
+        }
+        if (boatPosition.hit === false) {
+          boardObj[boardRows[i]].push('-')
+        }
+      }
+    }
+  }
+  if (debug === true) {
+    for(let i = 0; i < board.length; i++) {
+      const row = board[i]
+      boardObj[boardRows[i]] = []
+      for (let j = 0; j < row.length; j++) {
+        const boatPosition = row[j]
+        if (boatPosition.id === 2) {
+          boardObj[boardRows[i]].push('🟠')
+        }
+        if (boatPosition.id === 1) {
+          boardObj[boardRows[i]].push('🔵')
+        }
+        if (boatPosition.type === 'empty') {
+          boardObj[boardRows[i]].push('-')
+        }
+      }
+    }
+  }
+  console.table(boardObj)
+  return boardObj
 }
 // console.table(board)
 // console.log(board[0][0])
