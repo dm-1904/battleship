@@ -1,3 +1,5 @@
+const readlineSync = require('readline-sync')
+
 const random = (max) => {
   return Math.floor(Math.random() * max)
 }
@@ -141,5 +143,9 @@ const printBoard = (board, debug) => {
 }
 
 
-printBoard(testBoard1, true)
+// printBoard(testBoard1, true)
 // console.table(testBoard1)
+
+const takeYourShot = () => {
+  const shot = 
+}

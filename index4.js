@@ -1,9 +1,4 @@
 const readlineSync = require('readline-sync')
-const point1 = new Set()
-const point2 = new Set()
-const startingCoordinates = []
-const smallShipBoard = []
-const bigShipBoard = []
 const board6x6 = [
   [
     { type: "empty", hit: false },
@@ -54,7 +49,6 @@ const board6x6 = [
     { type: "empty", hit: false },
   ],
 ]
-
 const board5x5 = [
   [
     { type: "empty", hit: false },
@@ -119,30 +113,31 @@ const board4x4 = [
   ],
 ]
 
+const point1 = new Set()
+const point2 = new Set()
+const startingCoordinates = []
+const smallShipBoard = []
+const bigShipBoard = []
+let board
+// console.table(board)
+// console.log(board[0][0])
+// secondPointCoordinate(4, 5)
+// firstPointCoordinate(4, 5)
+// convertSetsToArrays(point1, point2)
+// smallBoatPositions(startingCoordinates)
+
 // create a function that can create any size board from an input
 // create a helper that finds a random point on that board
 // places small ship
 // places large ship
 
-const greetUser = () => {
-  console.log("Welcome to Battleship!")
-  const wantToPlay = readlineSync.keyInYN('Do you want to play?')
-  return wantToPlay
-}
 
-const selectBoardSize = () => {
-  console.log('What size board would you like to play on?')
-  const answers = ['4X4', '5X5', '6X6']
-  const userAnswer = readlineSync.keyInSelect(answers, 'Choose your board size: ')
-}
-
-// greetUser()
 
 const firstPointCoordinate = (quantity, max) => {
   while (point1.size !== quantity) {
     point1.add(Math.floor(Math.random() * max))
   }
-  // console.log(point1)
+  console.log(point1)
   return point1
 }
 
@@ -150,7 +145,7 @@ const secondPointCoordinate = (quantity, max) => {
   while (point2.size !== quantity) {
     point2.add(Math.floor(Math.random() * max))
   }
-  // console.log(point2)
+  console.log(point2)
   return point2
 }
 
@@ -160,14 +155,15 @@ const convertSetsToArrays = (set1, set2) => {
   for (let i = 0; i < set1.length && set2.length; i++) {
     startingCoordinates.push([set1[i], set2[i]])
   }
-  // console.log(startingCoordinates)
+  console.log(startingCoordinates)
   return startingCoordinates
 }
 
-const smallBoatPositions = (arr) => {
-  for (let i = 0; i < arr.length-2; i++) {
+const smallBoatPositions = (arr, max, min) => {
+  console.log(max)
+  for (let i = 0; i < arr.length-min; i++) {
     smallShipBoard.push(arr[i])
-    if (arr[i][0] === 5) {
+    if (arr[i][0] === max) {
       smallShipBoard.push([arr[i][0]-1, arr[i][1]])
     } else {
       smallShipBoard.push([arr[i][0]+1, arr[i][1]])
@@ -272,9 +268,43 @@ const printBoard = (board, debug) => {
   console.table(boardObj)
   return boardObj
 }
-// console.table(board)
-// console.log(board[0][0])
-secondPointCoordinate(4, 5)
-firstPointCoordinate(4, 5)
-convertSetsToArrays(point1, point2)
-smallBoatPositions(startingCoordinates)
+
+const greetUser = () => {
+  console.log("Welcome to Battleship!")
+  const wantToPlay = readlineSync.keyInYN('Do you want to play?')
+  if (wantToPlay === true) return selectBoardSize()
+  if (wantToPlay === false) console.log('BUMMER!')
+  return wantToPlay
+}
+
+const selectBoardSize = () => {
+  console.log('What size board would you like to play on?')
+  const answers = ['4X4 with 1 large boat & 1 small boat', '5X5 with 1 large boat & 2 small boats', '6X6 with 2 large boats & 2 small boats']
+  const userAnswer = readlineSync.keyInSelect(answers, 'Choose your board size: ')
+  if (userAnswer === 2) {
+    board = board6x6
+    firstPointCoordinate(4, 5)
+    secondPointCoordinate(4, 5)
+    convertSetsToArrays(point1, point2)
+    smallBoatPositions(startingCoordinates, 5, 2)
+  }
+  if (userAnswer === 1) {
+    board = board5x5
+    firstPointCoordinate(3, 4)
+    secondPointCoordinate(3, 4)
+    convertSetsToArrays(point1, point2)
+    smallBoatPositions(startingCoordinates, 4, 1)
+  }
+  if (userAnswer === 0) {
+    board = board4x4
+    firstPointCoordinate(2, 3)
+    secondPointCoordinate(2, 3)
+    convertSetsToArrays(point1, point2)
+    smallBoatPositions(startingCoordinates, 3, 1)
+  }
+}
+
+greetUser()
+
+
+//currently working on the 'max min' in small and big boat positions functions
