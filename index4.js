@@ -169,11 +169,11 @@ const smallBoatPositions = (arr, max, min) => {
       smallShipBoard.push([arr[i][0]+1, arr[i][1]])
     }
   }
-  return bigBoatPositions(startingCoordinates)
+  return //bigBoatPositions(startingCoordinates)
 }
 
-const bigBoatPositions = (arr) => {
-  for (let i = 2; i < arr.length; i++) {
+const bigBoatPositions = (arr, min) => {
+  for (let i = min; i < arr.length; i++) {
     bigShipBoard.push(arr[i])
     if (arr[i][0] > 3) {
       bigShipBoard.push([arr[i][0]-1, arr[i][1]])
@@ -287,6 +287,7 @@ const selectBoardSize = () => {
     secondPointCoordinate(4, 5)
     convertSetsToArrays(point1, point2)
     smallBoatPositions(startingCoordinates, 5, 2)
+    bigBoatPositions(startingCoordinates, 2)
   }
   if (userAnswer === 1) {
     board = board5x5
@@ -294,6 +295,7 @@ const selectBoardSize = () => {
     secondPointCoordinate(3, 4)
     convertSetsToArrays(point1, point2)
     smallBoatPositions(startingCoordinates, 4, 1)
+    bigBoatPositions(startingCoordinates, 2)
   }
   if (userAnswer === 0) {
     board = board4x4
@@ -301,10 +303,11 @@ const selectBoardSize = () => {
     secondPointCoordinate(2, 3)
     convertSetsToArrays(point1, point2)
     smallBoatPositions(startingCoordinates, 3, 1)
+    bigBoatPositions(startingCoordinates, 1)
   }
 }
 
 greetUser()
 
 
-//currently working on the 'max min' in small and big boat positions functions
+
