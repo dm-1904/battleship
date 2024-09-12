@@ -1,5 +1,17 @@
 const readlineSync = require('readline-sync')
 
+const youWin = `
+========
+__   _______ _   _   _    _ _____ _   _
+\ \ / /  _  | | | | | |  | |_   _| \ | |
+ \ V /| | | | | | | | |  | | | | |  \| |
+  \ / | | | | | | | | |/\| | | | | . ' |
+  | | \ \_/ / |_| | \  /\  /_| |_| |\  |
+  \_/  \___/ \___/   \/  \/ \___/\_| \_/
+========`
+
+
+
 const random = (max) => {
   return Math.floor(Math.random() * max)
 }
@@ -79,6 +91,7 @@ const random = (max) => {
 // });
 
 
+
 const testBoard1 = [
   [
     { type: "large", id: 1, hit: false }, // Represents position A0
@@ -97,8 +110,11 @@ const testBoard1 = [
   ],
 ];
 
+
+const boardObj = {}
+
 const printBoard = (board, debug) => {
-  const boardObj = {}
+
   const boardRows = 'ABCDEF'
   if (debug === false) {
     for(let i = 0; i < board.length; i++) {
@@ -139,13 +155,62 @@ const printBoard = (board, debug) => {
       }
     }
   }
-  console.table(boardObj)
+  // console.table(boardObj)
+  return boardObj
 }
 
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-// printBoard(testBoard1, true)
+printBoard(testBoard1, false)
 // console.table(testBoard1)
 
 const takeYourShot = () => {
-  const shot = 
+  let count = 0
+  console.table(boardObj)
+  for (let i = 0; i < testBoard1.length; i++) {
+    // console.log(el)
+    for (let j = 0; j < testBoard1[i].length; j++) {
+      // console.log(testBoard1[i][j].hit)
+      if (testBoard1[i][j].id !== undefined && testBoard1[i][j].hit === true) count++
+
+    }
+  }
+  if (count === 5) {
+    console.log(youWin)
+    return
+  }
+  // console.log(count)
+  const shot = readlineSync.question('Enter a location to strike: ').toUpperCase()
+  // let letter
+  // let number
+  // let letterToIndex
+  let letter = shot[0]
+  let number = shot[1]
+  let letterToIndex = alphabet.indexOf(letter)
+  testBoard1[letterToIndex][number].hit = true
+  // console.log(testBoard1[letterToIndex][number].hit)
+  printBoard(testBoard1, false)
+  // console.table(boardObj)
+  // console.log(testBoard1)
+  takeYourShot()
+  // console.log(letterToIndex)
+  // console.log(boardObj[letter])
+  // console.log(boardObj[letter][number])
+  // // console.log(letter, number)
+  // console.log(boardObj)
+  // console.table(boardObj)
 }
+
+// takeYourShot()
+
+
+// var favChar = {
+//   name: 'Michael Scott',
+//   company: 'Dunder Mufflin',
+//   designation: 'Regional Manager',
+//   show: 'The Office'
+// }
+
+// favChar.designation = 'Hero of Threat Level Midnight'
+
+// console.table(favChar)

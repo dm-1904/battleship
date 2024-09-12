@@ -1,4 +1,12 @@
 const readlineSync = require('readline-sync')
+const youWin = `========
+__   _______ _   _   _    _ _____ _   _
+\ \ / /  _  | | | | | |  | |_   _| \ | |
+ \ V /| | | | | | | | |  | | | | |  \| |
+  \ / | | | | | | | | |/\| | | | | . ' |
+  | | \ \_/ / |_| | \  /\  /_| |_| |\  |
+  \_/  \___/ \___/   \/  \/ \___/\_| \_/
+========`
 const board6x6 = [
   [
     { type: "empty", hit: false },
@@ -119,6 +127,7 @@ const startingCoordinates = []
 const smallShipBoard = []
 const bigShipBoard = []
 let board
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 // console.table(board)
 // console.log(board[0][0])
 // secondPointCoordinate(4, 5)
@@ -307,7 +316,42 @@ const selectBoardSize = () => {
   }
 }
 
+const takeYourShot = () => {
+  let count = 0
+  console.table(boardObj)
+  for (let i = 0; i < testBoard1.length; i++) {
+    // console.log(el)
+    for (let j = 0; j < testBoard1[i].length; j++) {
+      // console.log(testBoard1[i][j].hit)
+      if (testBoard1[i][j].id !== undefined && testBoard1[i][j].hit === true) count++
+
+    }
+  }
+  if (count === 5) {
+    console.log('YOU WIN!!!')
+    return
+  }
+  // console.log(count)
+  const shot = readlineSync.question('Enter a location to strike: ').toUpperCase()
+  // let letter
+  // let number
+  // let letterToIndex
+  let letter = shot[0]
+  let number = shot[1]
+  let letterToIndex = alphabet.indexOf(letter)
+  testBoard1[letterToIndex][number].hit = true
+  // console.log(testBoard1[letterToIndex][number].hit)
+  printBoard(testBoard1, false)
+  // console.table(boardObj)
+  // console.log(testBoard1)
+  takeYourShot()
+  // console.log(letterToIndex)
+  // console.log(boardObj[letter])
+  // console.log(boardObj[letter][number])
+  // // console.log(letter, number)
+  // console.log(boardObj)
+  // console.table(boardObj)
+}
+
+takeYourShot()
 greetUser()
-
-
-
