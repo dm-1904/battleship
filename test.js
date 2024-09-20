@@ -16,6 +16,13 @@ const random = (max) => {
   return Math.floor(Math.random() * max)
 }
 
+// a generalized function for the two functions below
+// const populateCoordinate = (quanity, max, set) => {
+//   while (set.size !== quanity) {
+//     set.add(Math.floor(Math.random() * max))
+//   }
+//   return set;
+// };
 
 // while (point.length !== 2) {
 //   // const filterPoint =
