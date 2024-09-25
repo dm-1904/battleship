@@ -221,3 +221,44 @@ const takeYourShot = () => {
 // favChar.designation = 'Hero of Threat Level Midnight'
 
 // console.table(favChar)
+
+/*  if (userAnswer === 2) {
+    board = board6x6
+    firstPointCoordinate(4, 5) firstPointQuantity, firstPointMax
+    secondPointCoordinate(4, 5) secondPointQuantity, secondPointMax
+    convertSetsToArrays(point1, point2)
+    smallBoatPositions(startingCoordinates, 5, 2) smallBoatStartMax, smallBoatStartMin
+    bigBoatPositions(startingCoordinates, 2) bigBoatMin
+    takeYourShot(board, 10) hitsToWin
+  }
+*/
+
+// new global variables
+/*
+firstPointQuantity
+firstPointMax
+secondPointQuantity
+secondPointMax
+smallBoatStartMax
+smallBoatStartMin
+bigBoatMin
+hitsToWin
+*/
+
+const gamePlayLoop = () => {
+  greetUser()
+  selectBoardSize()
+  firstPointCoordinate(firstPointQuantity, firstPointMax)
+  secondPointCoordinate(secondPointQuantity, secondPointMax)
+  convertSetsToArrays(point1, point2)
+  smallBoatPositions(startingCoordinates, smallBoatStartMax, smallBoatStartMin)
+  bigBoatPositions(startingCoordinates, bigBoatMin)
+
+  while (hits !== hitsToWin) {
+    // printBoard(board, false)
+    takeYourShot(board)
+  }
+
+  console.log(youWin)
+  playAgain()
+}
