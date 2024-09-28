@@ -1,4 +1,5 @@
-const readlineSync = require('readline-sync')
+import readlineSync from "readline-sync"
+import { board4x4, board5x5, board6x6 } from "./boards.js"
 const youWin = `
 ========
 __   _______ _   _   _    _ _____ _   _
@@ -8,119 +9,7 @@ __   _______ _   _   _    _ _____ _   _
   | | \\ \\_/ / |_| | \\  /\\  /_| |_| |\\  |
   \\_/  \\___/ \\___/   \\/  \\/ \\___/\\_| \\_/
 ========`;
-const board6x6 = [
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-]
-const board5x5 = [
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-]
-const board4x4 = [
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-  [
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-    { type: "empty", hit: false },
-  ],
-]
+
 
 const point1 = new Set()
 const point2 = new Set()
@@ -129,7 +18,7 @@ const smallShipBoard = []
 const bigShipBoard = []
 let board
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-const boardObj = {}
+let boardObj = {}
 let firstPointQuantity
 let firstPointMax
 let secondPointQuantity
@@ -166,12 +55,12 @@ const convertSetsToArrays = (set1, set2) => {
 };
 
 const smallBoatPositions = (arr, max, min) => {
-  for (let i = 0; i < arr.length-min; i++) {
+  for (let i = 0; i < arr.length - min; i++) {
     smallShipBoard.push(arr[i])
     if (arr[i][0] === max) {
-      smallShipBoard.push([arr[i][0]-1, arr[i][1]])
+      smallShipBoard.push([arr[i][0] - 1, arr[i][1]])
     } else {
-      smallShipBoard.push([arr[i][0]+1, arr[i][1]])
+      smallShipBoard.push([arr[i][0] + 1, arr[i][1]])
     }
   }
   return
@@ -181,11 +70,11 @@ const bigBoatPositions = (arr, min) => {
   for (let i = min; i < arr.length; i++) {
     bigShipBoard.push(arr[i])
     if (arr[i][0] >= 2) {
-      bigShipBoard.push([arr[i][0]-1, arr[i][1]])
-      bigShipBoard.push([arr[i][0]-2, arr[i][1]])
+      bigShipBoard.push([arr[i][0] - 1, arr[i][1]])
+      bigShipBoard.push([arr[i][0] - 2, arr[i][1]])
     } else {
-      bigShipBoard.push([arr[i][0]+1, arr[i][1]])
-      bigShipBoard.push([arr[i][0]+2, arr[i][1]])
+      bigShipBoard.push([arr[i][0] + 1, arr[i][1]])
+      bigShipBoard.push([arr[i][0] + 2, arr[i][1]])
     }
   }
   return
@@ -212,7 +101,7 @@ const battleShipPlacer = (smallArr, bigArr) => {
 const printBoard = (board, debug) => {
   const boardRows = 'ABCDEF'
   if (debug === false) {
-    for(let i = 0; i < board.length; i++) {
+    for (let i = 0; i < board.length; i++) {
       const row = board[i]
       boardObj[boardRows[i]] = []
       for (let j = 0; j < row.length; j++) {
@@ -233,7 +122,7 @@ const printBoard = (board, debug) => {
     }
   }
   if (debug === true) {
-    for(let i = 0; i < board.length; i++) {
+    for (let i = 0; i < board.length; i++) {
       const row = board[i]
       boardObj[boardRows[i]] = []
       for (let j = 0; j < row.length; j++) {
@@ -280,6 +169,7 @@ const selectBoardSize = () => {
     smallBoatStartMin = 2
     bigBoatMin = 2
     hitsToWin = 10
+    boardObj = {}
     // firstPointCoordinate(4, 5)
     // secondPointCoordinate(4, 5)
     // convertSetsToArrays(point1, point2)
@@ -297,6 +187,7 @@ const selectBoardSize = () => {
     smallBoatStartMin = 1
     bigBoatMin = 2
     hitsToWin = 7
+    boardObj = {}
     // firstPointCoordinate(3, 4)
     // secondPointCoordinate(3, 4)
     // convertSetsToArrays(point1, point2)
@@ -314,6 +205,7 @@ const selectBoardSize = () => {
     smallBoatStartMin = 1
     bigBoatMin = 1
     hitsToWin = 5
+    boardObj = {}
     // firstPointCoordinate(2, 3)
     // secondPointCoordinate(2, 3)
     // convertSetsToArrays(point1, point2)
@@ -335,21 +227,23 @@ const takeYourShot = (board) => {
   let letter = shot[0]
   let number = shot[1]
   let letterToIndex = alphabet.indexOf(letter)
-  // console.log('board ', board)
-  // console.log('lettertoindex', letterToIndex)
+  console.log('board ', board)
+  console.log('lettertoindex', letterToIndex)
   // console.log('1st board[letterToIndex][number]', board[letterToIndex][number])
+  console.log('boardObj ', boardObj)
   let boardObjKeys = Object.keys(boardObj)
   let boardObjValues = Object.values(boardObj)
   if (!boardObjKeys.includes(letter)) {
     console.log('Invalid strike location. Try again.')
     takeYourShot(board)
   }
-  if (number >= boardObj[letter].length){
+  console.log("boardObj[letter]", boardObj[letter])
+  if (number >= boardObj[letter].length) {
     console.log('Invalid strike location. Try again.')
     takeYourShot(board)
   }
   board[letterToIndex][number].hit = true
-  // console.log('2nd board[letterToIndex][number]', board[letterToIndex][number])
+  console.log('2nd board[letterToIndex][number]', board[letterToIndex][number])
   for (let i = 0; i < board.length; i++) {
     for (let j = 0; j < board[i].length; j++) {
       if (board[i][j].hit === true && board[i][j].id !== undefined) {
@@ -413,7 +307,7 @@ const gamePlayLoop = () => {
   selectBoardSize()
   setupBoard()
 
-  while (hits !== hitsToWin) {
+  while (hits < hitsToWin) {
     console.log('hits ', hits)
     printBoard(board, false)
     takeYourShot(board)
