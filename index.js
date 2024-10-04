@@ -14,8 +14,8 @@ __   _______ _   _   _    _ _____ _   _
 const point1 = new Set()
 const point2 = new Set()
 const startingCoordinates = []
-const smallShipBoard = []
-const bigShipBoard = []
+let smallShipBoard = []
+let bigShipBoard = []
 let board
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 let boardObj = {}
@@ -55,6 +55,7 @@ const convertSetsToArrays = (set1, set2) => {
 };
 
 const smallBoatPositions = (arr, max, min) => {
+  smallShipBoard = []
   for (let i = 0; i < arr.length - min; i++) {
     smallShipBoard.push(arr[i])
     if (arr[i][0] === max) {
@@ -67,6 +68,7 @@ const smallBoatPositions = (arr, max, min) => {
 }
 
 const bigBoatPositions = (arr, min) => {
+  bigShipBoard = []
   for (let i = min; i < arr.length; i++) {
     bigShipBoard.push(arr[i])
     if (arr[i][0] >= 2) {
@@ -146,7 +148,6 @@ const printBoard = (board, debug) => {
 const greetUser = () => {
   console.log("Welcome to Battleship!")
   const wantToPlay = readlineSync.keyInYN('Do you want to play?')
-  // if (wantToPlay === true) return selectBoardSize()
   if (wantToPlay === false) {
     console.log(gameOver)
     process.exit()
@@ -155,10 +156,11 @@ const greetUser = () => {
 }
 
 const selectBoardSize = () => {
+  boardObj = {}
+  board = []
   console.log('What size board would you like to play on?')
   const answers = ['4X4 with 1 large boat & 1 small boat', '5X5 with 1 large boat & 2 small boats', '6X6 with 2 large boats & 2 small boats']
   const userAnswer = readlineSync.keyInSelect(answers, 'Choose your board size: ');
-  // console.log(userAnswer)
   if (userAnswer === 2) {
     board = board6x6
     firstPointQuantity = 4
@@ -170,12 +172,6 @@ const selectBoardSize = () => {
     bigBoatMin = 2
     hitsToWin = 10
     boardObj = {}
-    // firstPointCoordinate(4, 5)
-    // secondPointCoordinate(4, 5)
-    // convertSetsToArrays(point1, point2)
-    // smallBoatPositions(startingCoordinates, 5, 2)
-    // bigBoatPositions(startingCoordinates, 2)
-    // takeYourShot(board, 10)
   }
   if (userAnswer === 1) {
     board = board5x5
@@ -188,12 +184,6 @@ const selectBoardSize = () => {
     bigBoatMin = 2
     hitsToWin = 7
     boardObj = {}
-    // firstPointCoordinate(3, 4)
-    // secondPointCoordinate(3, 4)
-    // convertSetsToArrays(point1, point2)
-    // smallBoatPositions(startingCoordinates, 4, 1)
-    // bigBoatPositions(startingCoordinates, 2)
-    // takeYourShot(board, 7)
   }
   if (userAnswer === 0) {
     board = board4x4
@@ -205,18 +195,10 @@ const selectBoardSize = () => {
     smallBoatStartMin = 1
     bigBoatMin = 1
     hitsToWin = 5
-    boardObj = {}
-    // firstPointCoordinate(2, 3)
-    // secondPointCoordinate(2, 3)
-    // convertSetsToArrays(point1, point2)
-    // smallBoatPositions(startingCoordinates, 3, 1)
-    // bigBoatPositions(startingCoordinates, 1)
-    // takeYourShot(board, 5)
-
   }
   if (userAnswer === -1) {
     console.log('GAME OVER')
-    playAgain()
+    process.exit()
   }
 }
 
@@ -227,23 +209,16 @@ const takeYourShot = (board) => {
   let letter = shot[0]
   let number = shot[1]
   let letterToIndex = alphabet.indexOf(letter)
-  console.log('board ', board)
-  console.log('lettertoindex', letterToIndex)
-  // console.log('1st board[letterToIndex][number]', board[letterToIndex][number])
-  console.log('boardObj ', boardObj)
   let boardObjKeys = Object.keys(boardObj)
-  let boardObjValues = Object.values(boardObj)
   if (!boardObjKeys.includes(letter)) {
     console.log('Invalid strike location. Try again.')
-    takeYourShot(board)
+    return takeYourShot(board)
   }
-  console.log("boardObj[letter]", boardObj[letter])
   if (number >= boardObj[letter].length) {
     console.log('Invalid strike location. Try again.')
-    takeYourShot(board)
+    return takeYourShot(board)
   }
   board[letterToIndex][number].hit = true
-  console.log('2nd board[letterToIndex][number]', board[letterToIndex][number])
   for (let i = 0; i < board.length; i++) {
     for (let j = 0; j < board[i].length; j++) {
       if (board[i][j].hit === true && board[i][j].id !== undefined) {
@@ -252,43 +227,6 @@ const takeYourShot = (board) => {
     }
   }
   return hits
-}
-
-// const takeYourShot = (board, count) => {
-//   hits = 0
-//   for (let i = 0; i < board.length; i++) {
-//     for (let j = 0; j < board[i].length; j++) {
-//       if (board[i][j].id !== undefined && board[i][j].hit === true) {
-//         hits++
-//       }
-//     }
-//   }
-//   if (count === hits) {
-//     console.log(youWin)
-//     return
-//   }
-//   const shot = readlineSync.question('Enter a location to strike: ').toUpperCase()
-//   let letter = shot[0]
-//   let number = shot[1]
-//   let letterToIndex = alphabet.indexOf(letter)
-//   if (board[letterToIndex][number] === undefined) {
-//     console.log('Invalid strike location. Try again.')
-//     takeYourShot(board, count)
-//   }
-//   board[letterToIndex][number].hit = true
-//   printBoard(board, false)
-//   takeYourShot(board, count)
-// }
-
-const playAgain = () => {
-
-  const again = readlineSync.keyInYN('Would you like to play again?')
-  // console.log('again ', again)
-  if (again) {
-    return gamePlayLoop()
-  }
-  console.log(gameOver)
-  process.exit()
 }
 
 const setupBoard = () => {
@@ -301,20 +239,18 @@ const setupBoard = () => {
   printBoard(board, false)
   takeYourShot(board)
 }
-
 const gamePlayLoop = () => {
   greetUser()
   selectBoardSize()
   setupBoard()
-
   while (hits < hitsToWin) {
-    console.log('hits ', hits)
     printBoard(board, false)
     takeYourShot(board)
   }
   printBoard(board, false)
   console.log(youWin)
-  playAgain()
+  process.exit()
+
 }
 
 gamePlayLoop()
